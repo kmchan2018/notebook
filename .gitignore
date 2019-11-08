@@ -1,0 +1,6 @@
+/app/cache/*
+/app/logs/*
+/output_*/
+/node_modules/
+/vendor/
+/old/

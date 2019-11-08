@@ -1,0 +1,7 @@
+
+services:
+  exec.twig_extension:
+    class: ExecBundle\Twig\ExecExtension
+    tags:
+       - name: 'twig.extension'
+

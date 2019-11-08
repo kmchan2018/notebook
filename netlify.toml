@@ -1,0 +1,10 @@
+
+[build]
+
+	command = "vendor/bin/sculpin generate --env=prod"
+	publish = "output_prod"
+
+[build.environment]
+
+	PHP_VERSION = "7.2"
+

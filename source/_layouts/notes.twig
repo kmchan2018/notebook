@@ -1,0 +1,77 @@
+{% extends "skeleton" %}
+
+{%- set props_notes -%}
+{%- autoescape false -%}
+{{ '{' }}{% for note in data.notes %}{% if not loop.first %},{% endif %}{{ note.url|json_encode }}:{{ { url: note.url, title: note.title }|json_encode }}{% endfor %}{{ '}' }}
+{%- endautoescape -%}
+{%- endset -%}
+
+{%- set props_index -%}
+{%- autoescape false -%}
+{% apply exec('node tool/index.js') %}{{ props_notes }}{% endapply %}
+{%- endautoescape -%}
+{%- endset -%}
+
+{%- set props_all -%}
+{%- autoescape false -%}
+{"notes":{{ props_notes }},"index":{{ props_index }}}
+{%- endautoescape -%}
+{%- endset -%}
+
+{% block stylesheets %}
+<style>
+{%- autoescape false -%}
+{%- apply exec('node_modules/.bin/node-sass source/_styles/notes.scss') %}{}{%- endapply -%}
+{%- endautoescape -%}
+</style>
+{% endblock %}
+
+{% block toolbar %}
+{% embed 'skeleton.unit' with {'unit':{'id':'searchbar'}} %}
+{% block body %}
+<section id="search" role="search">
+{%- autoescape false -%}
+{%- apply exec('node tool/prerender.js source/_scripts/notes.search.tsx') %}{}{%- endapply -%}
+{%- endautoescape -%}
+</section>
+{% endblock %}
+{% endembed %}
+{% endblock %}
+
+{% block main %}
+{% embed 'skeleton.unit' with {'unit':{'id':'main'}} %}
+{% block body %}
+<main class="pb-3" role="main">
+<div id="browser">
+{%- autoescape false -%}
+{%- apply exec('node tool/prerender.js source/_scripts/notes.browser.tsx') %}{{ props_all }}{% endapply -%}
+{%- endautoescape -%}
+</div>
+{% block content %}{% endblock %}
+</main>
+</div>
+</div>
+</div>
+{% endblock %}
+{% endembed %}
+{% endblock %}
+
+{% block script %}
+<script src="{{ site.url }}/js/lunr.js"></script>
+<script type="text/javascript">
+// <!--
+{% autoescape false -%}
+{%- apply exec('node_modules/.bin/rollup --silent -c rollup.config.js -n Search source/_scripts/notes.search.tsx') -%}{%- endapply -%}
+{%- apply exec('node_modules/.bin/rollup --silent -c rollup.config.js -n Browser source/_scripts/notes.browser.tsx') -%}{%- endapply -%}
+{%- endautoescape %}
+const callback = (query) => { console.log('Processing query: ' + query); reference.current.setState({ 'query': query }); };
+const reference = React.createRef();
+const element1 = React.createElement(Search, { callback: callback });
+const element2 = React.createElement(Browser, Object.assign({{ props_all }}, {'ref':reference}));
+const container1 = document.getElementById('search');
+const container2 = document.getElementById('browser');
+ReactDOM.hydrate(element1, container1);
+ReactDOM.hydrate(element2, container2);
+// -->
+</script>
+{% endblock %}

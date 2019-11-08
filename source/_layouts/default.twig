@@ -1,0 +1,13 @@
+{% extends "skeleton" %}
+
+{% block main %}
+{% embed 'skeleton.unit' with {'unit':{'id':'main'}} %}
+{% block body %}
+<main class="py-3 px-3 border-top" role="main">
+{% autoescape false -%}
+{{ page.blocks.content }}
+{%- endautoescape %}
+</main>
+{% endblock %}
+{% endembed %}
+{% endblock %}

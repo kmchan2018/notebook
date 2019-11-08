@@ -1,0 +1,7 @@
+<div {% if unit is defined %}id="{{ unit.id }}" {% endif %}class="container unit {%- if unit is defined %} {{ unit.style }}{% endif %}">
+<div class="row justify-content-center">
+<div class="col-md-12 col-lg-10 col-xl-9">
+{% block body %}{% endblock %}
+</div>
+</div>
+</div>

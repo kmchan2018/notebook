@@ -1,0 +1,20 @@
+
+sculpin:
+  permalink: none
+  ignore:
+    - "**/*~"
+    - "**/.*.swp"
+    - "_scripts/**"
+    - "_styles/**"
+
+sculpin_content_types:
+  posts:
+    enabled: false
+    permalink: blog/:year/:month/:day/:filename/
+  notes:
+    type: path
+    singular_name: note
+    permalink: notes/:basename.html
+    taxonomies: [ category, tags ]
+    layout: default
+

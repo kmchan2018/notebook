@@ -1,0 +1,60 @@
+
+//
+// Import core bootstrap files
+//
+
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/mixins";
+
+//
+// Customize bootstrap variables
+//
+
+@import "./variables";
+
+//
+// Rebuild affected bootstrap rules
+//
+
+@import "../../node_modules/bootstrap/scss/type";
+
+//
+// Prevent scroll bar from drifting content body horizontally. In Bootstrap,
+// containers will be centered with a preset max width when shown in a medium
+// viewport (ie width >= 576 aka sm or above), which call for the hack. For 
+// smaller viewport, the content will fill the screen entirely so the hack is
+// not needed.
+//
+// Ref: https://stackoverflow.com/questions/1417934/how-to-prevent-scrollbar-from-repositioning-web-page
+//
+
+@include media-breakpoint-up(sm) {
+	body {
+		margin-left: calc(100vw - 100%);
+	}
+}
+
+//
+// Prevent navbar brand header from pushing the toggle button down to
+// another row.
+//
+
+@include media-breakpoint-down(sm) {
+	div#banner header h1 {
+  	white-space: nowrap;
+	  overflow: hidden;
+  	text-overflow: ellipsis;
+		max-width: calc(100% - 1.5em - #{2 * $navbar-toggler-padding-x + $navbar-padding-x} - #{2 * $border-width});
+	}
+}
+
+//
+// Code box
+//
+
+pre {
+	background-color: $light;
+	padding: 1.5rem;
+}
+
